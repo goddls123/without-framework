@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/todomvc-common@1.0.5/base.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/todomvc-app-css@2.1.2/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.js"></script>
+    <title>witout framework</title>
+</head>
+<body>
+    <section class="todoapp">
+        <header class="header">
+            <h1>Todos</h1>
+            <input class="new-todo" placeholder="입력" autofocus>
+        </header>
+        <section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all">
+            <label for="toggel-all">Mark all as complete</label>
+            <ul class="todo-list"></ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count" data-componet="">1 Item Left</span>
+            <ul class="filters">
+                <li><a href="#/">All</a></li>
+                <li><a href="#/active">Active</a></li>
+                <li><a href="#/completed">Completed</a></li>
+            </ul>
+            <button class="clear-completed">Clear completed</button>
+        </footer>
+    </section>
+    <script src="index.js" type="module"></script>
+</body>
+</html>
