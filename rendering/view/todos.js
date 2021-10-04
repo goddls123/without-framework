@@ -3,20 +3,22 @@ const getTodoElement = todo =>{
 
     return `
     <li ${completed ? 'class="completed"' : ''}>
-        <div class="view">
-            <input 
-                ${completed ? 'checked' : ''}
-                class = "toggle"
-                type="checkbox" >
+      <div class="view">
+        <input 
+          ${completed ? 'checked' : ''}
+          class="toggle" 
+          type="checkbox">
         <label>${text}</label>
-        </div>
-        <input class="edit" value=${text} >
-    /li>    
-    `
+        <button class="destroy"></button>
+      </div>
+      <input class="edit" value="${text}">
+    </li>`
 }
 
 export default (targetElement ,{todos}) => {
     const newTodoList = targetElement.cloneNode(true);
+
+    console.log('todos')
 
     const todoElements = todos.map((todo)=> getTodoElement(todo)).join('');
 

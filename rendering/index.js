@@ -9,7 +9,7 @@ import registy from './registry.js'
 
 
 const state = {
-    todo: getTodos(),
+    todos: getTodos(),
     currentFilter: 'All'
 }
 
@@ -19,9 +19,18 @@ registy.add('filters', filtersView);
 
 
 
+const render = () =>{
+    window.requestAnimationFrame(() => {
+        const main = document.querySelector('.todoapp');
+        const newMain = registy.renderRoot(main,state);
+        main.replaceWith(newMain);
+    })
+}
 
-window.requestAnimationFrame(() => {
-    const main = document.querySelector('.todoapp');
-    const newMain = registy.renderRoot(main,state);
-    main.replaceWith(newMain);
-})
+window.setInterval(() =>{
+    state.todos = getTodos();
+    render();
+    console.log("hello")
+}, 5000)
+
+

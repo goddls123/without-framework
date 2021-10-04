@@ -3,12 +3,11 @@ const registy = {};
 
 const renderWrapper = (component) =>{
     return (targetElement, state) => {
-        const element = targetElement.cloneNode(true);
+        const element = component(targetElement, state);
     
-        const childComponent = element.querySelector('[data-component]');
+        const childComponents = element.querySelectorAll('[data-component]');
 
-
-        Array.from(childComponent)
+        Array.from(childComponents)
         .forEach((target) => {
             const name = target.dataset.component;
 
@@ -29,8 +28,10 @@ const add = ( name, component) => {
 }
 
 const renderRoot = (root, state) =>{
-    const newRoot = root.cloneNode(true);
-
+    const newRoot = (root) =>{
+        return root.cloneNode(true);
+    }
+    console.log(state);
     return renderWrapper(newRoot)(root,state);
 }
 
