@@ -4,8 +4,8 @@ import getTodos from './getTodos.js';
 import todosView from './view/todos.js';
 import counterView from './view/counter.js';
 import filtersView from './view/filters.js';
-import registy from './registry.js'
-
+import registy from './registry.js';
+import applyDiff from './applyDiff.js';
 
 
 const state = {
@@ -23,14 +23,14 @@ const render = () =>{
     window.requestAnimationFrame(() => {
         const main = document.querySelector('.todoapp');
         const newMain = registy.renderRoot(main,state);
-        main.replaceWith(newMain);
+        applyDiff(document.body, main, newMain);
+        // main.replaceWith(newMain);
     })
 }
 
 window.setInterval(() =>{
     state.todos = getTodos();
     render();
-    console.log("hello")
 }, 5000)
 
 
