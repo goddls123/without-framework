@@ -9,9 +9,25 @@ const createNewAppNode = () =>{
     return template.content.firstElementChild.cloneNode(true);
 }
 
-export default (targetElement) => {
+const addEvents = (targetElement, events) => {
+
+    targetElement
+    .querySelector('.new-todo')
+    .addEventListener('keypress', (event) => {
+        if (event.key === 'Enter'){
+            events.addItem(event.target.value);
+            event.target.value = '';
+        }
+    })
+} 
+
+export default (targetElement, state ,events) => {
     const newApp = targetElement.cloneNode(true);
+
     newApp.innerHTML = ''
     newApp.appendChild(createNewAppNode());
+
+    addEvents(newApp, events);
+
     return newApp;
 }

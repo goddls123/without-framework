@@ -2,8 +2,8 @@ const registy = {};
 
 
 const renderWrapper = (component) =>{
-    return (targetElement, state) => {
-        const element = component(targetElement, state);
+    return (targetElement, state, events) => {
+        const element = component(targetElement, state, events);
     
         const childComponents = element.querySelectorAll('[data-component]');
 
@@ -17,7 +17,7 @@ const renderWrapper = (component) =>{
                 return ;
             }
 
-            target.replaceWith(child(target,state));
+            target.replaceWith(child(target,state, events));
         })    
         return element;
     }
@@ -27,11 +27,11 @@ const add = ( name, component) => {
     registy[name] = renderWrapper(component);
 }
 
-const renderRoot = (root, state) =>{
+const renderRoot = (root, state, events) =>{
     const newRoot = (root) =>{
         return root.cloneNode(true);
     }
-    return renderWrapper(newRoot)(root,state);
+    return renderWrapper(newRoot)(root,state, events);
 }
 
 export default {
