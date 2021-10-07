@@ -10,15 +10,24 @@ const createNewAppNode = () =>{
 }
 
 const addEvents = (targetElement, events) => {
+    const {addItem, clearCompleted, completedAll} = events
 
     targetElement
     .querySelector('.new-todo')
-    .addEventListener('keypress', (event) => {
-        if (event.key === 'Enter'){
-            events.addItem(event.target.value);
-            event.target.value = '';
+    .addEventListener('keypress', (e) => {
+        if (e.key === 'Enter'){
+            addItem(e.target.value);
+            e.target.value = '';
         }
     })
+
+    targetElement
+    .querySelector('#toggle-all')
+    .addEventListener('click', completedAll)
+
+    targetElement
+    .querySelector('.clear-completed')
+    .addEventListener('click', clearCompleted)
 } 
 
 export default (targetElement, state ,events) => {

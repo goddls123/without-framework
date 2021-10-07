@@ -1,4 +1,4 @@
-.todo-list li .destroy {
+.todo-list li button {
     display: none;
     position: absolute;
     top: 0;
@@ -8,10 +8,11 @@
     height: 40px;
     margin: auto 0;
     font-size: 30px;
-    color: #cc9a9a;
+    background-color: #cc9a9a;
+    border-radius: 50%;
     margin-bottom: 11px;
     transition: color 0.2s ease-out;
 }
-.todo-list li:hover .destroy {
+.todo-list li:hover button {
     display: inline-block;
 }
