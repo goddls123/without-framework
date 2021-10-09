@@ -24,6 +24,9 @@ const isNodeChanged = (node1, node2) =>{
             const {name} = attribute;
             const attribute1 = node1.getAttribute(name);
             const attribute2 = node2.getAttribute(name);
+            if (name ==='checked'){
+                console.log(attribute1)
+            }
 
             return attribute1 !== attribute2
         })
@@ -43,6 +46,7 @@ const isNodeChanged = (node1, node2) =>{
 }
 
 const applyDiff = (parentNode, realNode, virtualNode) =>{
+    
     if (realNode && !virtualNode){
         realNode.remove();
         return;
@@ -55,6 +59,7 @@ const applyDiff = (parentNode, realNode, virtualNode) =>{
 
     if (isNodeChanged(realNode, virtualNode)){
         realNode.replaceWith(virtualNode);
+        return;
     }
 
     const realChildren = Array.from(realNode.children);
