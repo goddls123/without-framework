@@ -21,7 +21,17 @@ const getTodoElement = (todo, index, events)=>{
       element.querySelector('input.toggle').checked = true;
     }
 
-    attachEventsTodoElement(element, index, events);
+    element.querySelector('button.destory').dataset.index = index
+    element.querySelector('input.edit').dataset.index = index
+    element.querySelector('input.toggle').dataset.index = index
+
+    // attachEventsTodoElement(element, index, events);
+
+    element
+    .addEventListener('dblclick', (e)=>{
+      element.classList.add('editing');
+      element.querySelector('input.edit').focus();
+    })
 
     return element;
 }
@@ -49,6 +59,28 @@ const attachEventsTodoElement = (element, index , events) => {
  element
     .querySelector('input.toggle')
     .addEventListener('click', e => events.toggleItemCompleted(index))
+}
+
+const eventDelegate = (element, events) =>{
+  const {toggleItemCompleted, updateItem ,deleteItem} = events;
+
+  element.addEventListener('click' , (e) =>{
+    if (e.target.matches('button.destory')){
+      deleteItem(e.target.dataset.index);
+    }
+    if (e.target.matches('input.toggle')) {
+      toggleItemCompleted(e.target.dataset.index)
+    }
+  })
+
+  element.addEventListener('keypress', (e) => {
+    if (e.target.matches('input.edit')){
+      if (e.key === 'Enter'){
+        updateItem(e.target.dataset.index, e.target.value)
+        e.target.classList.remove('editing');
+      }
+    }
+  })
 }
 
 const filterTodos = (todos, filter) => {
@@ -79,6 +111,7 @@ export default (targetElement ,{todos, currentFilter},events ) => {
     .forEach(element => {
         newTodoList.appendChild(element);
     });
+    eventDelegate(newTodoList, events)
 
     return newTodoList;
 }
