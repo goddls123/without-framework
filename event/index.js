@@ -55,14 +55,7 @@ const events = {
 const render = () =>{
     window.requestAnimationFrame(() => {
         const main = document.querySelector('#root');
-
         const newMain = registy.renderRoot(main, state, events);
-        const ul = main.querySelector('ul')
-        const nul = main.querySelector('ul')
-        console.log('ul : ', main);
-        console.log('ul : ' , nul)
-        
-        // main.replaceWith(newMain)
         applyDiff(document.body, main, newMain);
     })
 }
