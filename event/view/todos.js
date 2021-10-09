@@ -33,7 +33,7 @@ const attachEventsTodoElement = (element, index , events) => {
     .addEventListener('click', e => events.deleteItem(index));
 
   element
-    .addEventListener('dbclick', (e)=>{
+    .addEventListener('dblclick', (e)=>{
       element.classList.add('editing');
       element.querySelector('input.edit').focus();
     })

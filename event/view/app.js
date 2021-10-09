@@ -22,8 +22,8 @@ const addEvents = (targetElement, events) => {
     })
 
     targetElement
-    .querySelector('#toggle-all')
-    .addEventListener('click', completedAll)
+    .querySelector('input.toggle-all')
+    .addEventListener('click', completeAll)
 
     targetElement
     .querySelector('.clear-completed')

@@ -58,7 +58,8 @@ const render = () =>{
 
         const newMain = registy.renderRoot(main, state, events);
 
-        applyDiff(document.body, main, newMain);
+        main.replaceWith(newMain)
+        // applyDiff(document.body, main, newMain);
     })
 }
 
