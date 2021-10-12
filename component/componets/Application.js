@@ -11,7 +11,7 @@ export default class App extends HTMLElement{
         this.template = document.getElementById('todo-app')
     }
 
-    asycAttributes() {
+    syncAttributes() {
         this.list.todos = this.state.todos;
         this.list.filter = this.state.filter;
         this.footer.todos = this.state.todos;
@@ -23,39 +23,39 @@ export default class App extends HTMLElement{
             text ,
             completed :false
         })
-        this.asycAttributes();
+        this.syncAttributes();
     }
     deleteItem = (index) => {
         this.state.todos.splice(index,1);
-        this.asycAttributes();
+        this.syncAttributes();
     }
 
     updateItem = (index, text) => {
         this.state.todos[index].text = text
-        this.asycAttributes();
+        this.syncAttributes();
     }
     toggleItemCompleted = (index) =>{
         this.state.todos[index].completed = !state.todos[index].completed;
-        this.asycAttributes();
+        this.syncAttributes();
     }
     completedAll = () => {
         this.state.todos.forEach(todo => todo.completed = true);
-        this.asycAttributes();
+        this.syncAttributes();
     }
     clearCompleted = ()=>{
         this.state.todos = state.todos.filter(todo => !todo.completed);
-        this.asycAttributes();
+        this.syncAttributes();
     }
     changeFilter = (filter)=>{
         this.state.currentFilter = filter;
-        this.asycAttributes();
+        this.syncAttributes();
     }
 
     eventHandler() {
         this.querySelector('.new-todo')
         .addEventListener('keypress', (e) => {
             if (e.key === 'Enter'){
-                addItem(e.target.value);
+                this.addItem(e.target.value);
                 e.target.value = '';
             }
         })

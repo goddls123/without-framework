@@ -19,9 +19,6 @@ export const FILTER_EVENTS = {
 
 export default class Footer extends HTMLElement{
 
-    constructor() {
-    }
-
     static get observedAttributes() { 
         return ['todos', 'filter']; 
     }
@@ -74,7 +71,7 @@ export default class Footer extends HTMLElement{
         this.dispatchEvent(event);
     }
 
-    updateList() {
+    updateFooter() {
         Array
         .from(this.querySelectorAll('li a'))
         .forEach(a =>{
@@ -87,8 +84,8 @@ export default class Footer extends HTMLElement{
         })
 
         const label = getTodoCount(this.todos);
-
-        this.querySelector('span.todo-count').textContent = label;
+  
+        this.querySelector('.todo-count').textContent = label
 
         this.addEventListener('click', (e)=>{
             if (e.target.matches('a')){
@@ -106,14 +103,14 @@ export default class Footer extends HTMLElement{
     connectedCallback() {
         window.requestAnimationFrame(() => {
             const template = document.getElementById('footer');
-            const content = template.firstElementChild.cloneNode(true);
+            const content = template.content.firstElementChild.cloneNode(true);
             this.appendChild(content);
 
-            this.updateList();
+            this.updateFooter();
         })
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        this.updateList();
+        this.updateFooter();
     }
 }
