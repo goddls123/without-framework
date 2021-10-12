@@ -1,4 +1,5 @@
 import {LIST_EVENTS}  from './List.js';
+import {FILTER_EVENTS} from './Footer.js';
 
 export default class App extends HTMLElement{
     constructor() {
@@ -12,6 +13,7 @@ export default class App extends HTMLElement{
 
     asycAttributes() {
         this.list.todos = this.state.todos;
+        this.list.filter = this.state.filter;
         this.footer.todos = this.state.todos;
         this.footer.filter = this.state.filter;
     }
@@ -58,7 +60,7 @@ export default class App extends HTMLElement{
             }
         })
         this.querySelector('input.toggle-all')
-        .addEventListener('click', completedAll)
+        .addEventListener('click', this.completedAll)
 
         this.list.addEventListener(LIST_EVENTS.DELETE_ITEM, (e) => {
             this.deleteItem(e.detail.index)
@@ -68,6 +70,11 @@ export default class App extends HTMLElement{
         })
         this.list.addEventListener(LIST_EVENTS.UPDATE_ITEM, (e) => {
             this.updateItem(e.detail.index, e.detail.text);
+        })
+
+        this.footer.addEventListener(FILTER_EVENTS.CLEAR_COMPLETE, this.clearCompleted);
+        this.footer.addEventListener(FILTER_EVENTS.CHANGE_FILTER, (e) => {
+            this.changeFilter(e.detail.filter);
         })
 
 
@@ -83,7 +90,6 @@ export default class App extends HTMLElement{
 
             this.eventHandler();
             
-            this.footer.addEventListener();
             this.syncAttributes();
 
         })

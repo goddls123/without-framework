@@ -13,13 +13,13 @@ const getTodoCount = todos =>{
 }
 
 export const FILTER_EVENTS = {
-    CHANGE_FILTER: 'CHANGE_FILTER'
+    CHANGE_FILTER: 'CHANGE_FILTER',
+    CLEAR_COMPLETE: 'CLEAR_COMPLETED'
 }
 
 export default class Footer extends HTMLElement{
 
     constructor() {
-        this.template = document.getElementById('footer');
     }
 
     static get observedAttributes() { 
@@ -53,6 +53,14 @@ export default class Footer extends HTMLElement{
         }
     }
 
+    onClearCompleted() {
+        const event = new CustomEvent(
+            FILTER_EVENTS.CLEAR_COMPLETE
+        )
+
+        event.dispatchEvent(event);
+    }
+
     onClickFilter(filter) {
         const event = new CustomEvent(
             FILTER_EVENTS.CHANGE_FILTER,
@@ -78,17 +86,27 @@ export default class Footer extends HTMLElement{
             }
         })
 
+        const label = getTodoCount(this.todos);
+
+        this.querySelector('span.todo-count').textContent = label;
+
         this.addEventListener('click', (e)=>{
             if (e.target.matches('a')){
                 e.preventDefault();
                 this.onClickFilter(e.target.textContent);
             }
+            if (e.target.matches('button.clear-completed')) {
+                e.preventDefault();
+                this.onClearCompleted();
+            }
         });
+        
     }
 
     connectedCallback() {
         window.requestAnimationFrame(() => {
-            const content = this.template.firstElementChild.cloneNode(true);
+            const template = document.getElementById('footer');
+            const content = template.firstElementChild.cloneNode(true);
             this.appendChild(content);
 
             this.updateList();
