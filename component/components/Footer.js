@@ -13,14 +13,11 @@ const getTodoCount = todos =>{
 }
 
 export const FILTER_EVENTS = {
-    CHANGE_FILTER: 'CHANGE_FILTER'
+    CHANGE_FILTER: 'CHANGE_FILTER',
+    CLEAR_COMPLETE: 'CLEAR_COMPLETED'
 }
 
 export default class Footer extends HTMLElement{
-
-    constructor() {
-        this.template = document.getElementById('footer');
-    }
 
     static get observedAttributes() { 
         return ['todos', 'filter']; 
@@ -53,6 +50,14 @@ export default class Footer extends HTMLElement{
         }
     }
 
+    onClearCompleted() {
+        const event = new CustomEvent(
+            FILTER_EVENTS.CLEAR_COMPLETE
+        )
+
+        this.dispatchEvent(event);
+    }
+
     onClickFilter(filter) {
         const event = new CustomEvent(
             FILTER_EVENTS.CHANGE_FILTER,
@@ -66,9 +71,12 @@ export default class Footer extends HTMLElement{
         this.dispatchEvent(event);
     }
 
-    updateList() {
-        Array
-        .from(this.querySelectorAll('li a'))
+    updateFilter() {
+
+        if (!this.childElementCount){
+            return;
+        }
+        Array.from(this.querySelectorAll('li a'))
         .forEach(a =>{
             if (a.textContent === this.filter){
                 a.classList.add('selected');
@@ -78,24 +86,47 @@ export default class Footer extends HTMLElement{
             }
         })
 
-        this.addEventListener('click', (e)=>{
-            if (e.target.matches('a')){
-                e.preventDefault();
-                this.onClickFilter(e.target.textContent);
-            }
-        });
+      
+    }
+
+    updateCount(){
+        if (!this.childElementCount){
+            return;
+        }
+        
+        const label = getTodoCount(this.todos);
+  
+        this.querySelector('.todo-count').textContent = label
     }
 
     connectedCallback() {
         window.requestAnimationFrame(() => {
-            const content = this.template.firstElementChild.cloneNode(true);
+            const template = document.getElementById('footer');
+            const content = template.content.firstElementChild.cloneNode(true);
             this.appendChild(content);
 
-            this.updateList();
+
+            this.addEventListener('click', (e)=>{
+                if (e.target.matches('a')){
+                    e.preventDefault();
+                    this.onClickFilter(e.target.textContent);
+                }
+                if (e.target.matches('button.clear-completed')) {
+                    this.onClearCompleted();
+                }
+            });
+            this.updateCount();
+            this.updateFilter();
         })
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        this.updateList();
+        console.log(name)
+        if (name === 'filter'){
+            this.updateFilter();
+        }
+        else if (name === 'todos'){
+            this.updateCount();
+        }
     }
 }

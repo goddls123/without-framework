@@ -73,16 +73,17 @@ export default class List extends HTMLElement{
                 }
             }
         )
+        this.dispatchEvent(event);
     }
 
     createNewTodoNode() {
         return this.itemTemplate.content.firstElementChild.cloneNode(true);
     }
 
-    getTodoElement(todo, index, LIST_events) {
+    getTodoElement(todo, index) {
         const {text, completed} = todo;
         
-        const element = createNewTodoNode();
+        const element = this.createNewTodoNode();
     
         element.querySelector('label').textContent = text;
         element.querySelector('input.edit').value = text;
@@ -105,9 +106,7 @@ export default class List extends HTMLElement{
         return element;
     }
 
-    handleEventDelegate(LIST_events) {
-        const {toggleItemCompleted, updateItem ,deleteItem} = LIST_events;
-
+    handleEventDelegate() {
         this.list.addEventListener('click' , (e) =>{
             if (e.target.matches('button.destory')){
                 this.onDeleteClick(e.target.dataset.index);
@@ -142,11 +141,12 @@ export default class List extends HTMLElement{
     updateList() {
         this.list.innerHTML = '';
 
-        this.todos = this.filterTodos();
-        this.todos
-        .map(todo => this.getTodoElement(todo))
+        const filteredTodos = this.filterTodos();
+
+        filteredTodos
+        .map((todo,index) => this.getTodoElement(todo,index))
         .forEach(element => {
-            this.appendChild(element);
+            this.list.appendChild(element);
         })
         
     }

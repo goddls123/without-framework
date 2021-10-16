@@ -1,4 +1,5 @@
 import {LIST_EVENTS}  from './List.js';
+import {FILTER_EVENTS} from './Footer.js';
 
 export default class App extends HTMLElement{
     constructor() {
@@ -10,8 +11,9 @@ export default class App extends HTMLElement{
         this.template = document.getElementById('todo-app')
     }
 
-    asycAttributes() {
+    syncAttributes() {
         this.list.todos = this.state.todos;
+        this.list.filter = this.state.filter;
         this.footer.todos = this.state.todos;
         this.footer.filter = this.state.filter;
     }
@@ -21,44 +23,44 @@ export default class App extends HTMLElement{
             text ,
             completed :false
         })
-        this.asycAttributes();
+        this.syncAttributes();
     }
     deleteItem = (index) => {
         this.state.todos.splice(index,1);
-        this.asycAttributes();
+        this.syncAttributes();
     }
 
     updateItem = (index, text) => {
         this.state.todos[index].text = text
-        this.asycAttributes();
+        this.syncAttributes();
     }
     toggleItemCompleted = (index) =>{
-        this.state.todos[index].completed = !state.todos[index].completed;
-        this.asycAttributes();
+        this.state.todos[index].completed = !this.state.todos[index].completed;
+        this.syncAttributes();
     }
     completedAll = () => {
         this.state.todos.forEach(todo => todo.completed = true);
-        this.asycAttributes();
+        this.syncAttributes();
     }
     clearCompleted = ()=>{
-        this.state.todos = state.todos.filter(todo => !todo.completed);
-        this.asycAttributes();
+        this.state.todos = this.state.todos.filter(todo => !todo.completed);
+        this.syncAttributes();
     }
     changeFilter = (filter)=>{
         this.state.currentFilter = filter;
-        this.asycAttributes();
+        this.syncAttributes();
     }
 
     eventHandler() {
         this.querySelector('.new-todo')
         .addEventListener('keypress', (e) => {
             if (e.key === 'Enter'){
-                addItem(e.target.value);
+                this.addItem(e.target.value);
                 e.target.value = '';
             }
         })
         this.querySelector('input.toggle-all')
-        .addEventListener('click', completedAll)
+        .addEventListener('click', this.completedAll)
 
         this.list.addEventListener(LIST_EVENTS.DELETE_ITEM, (e) => {
             this.deleteItem(e.detail.index)
@@ -68,6 +70,11 @@ export default class App extends HTMLElement{
         })
         this.list.addEventListener(LIST_EVENTS.UPDATE_ITEM, (e) => {
             this.updateItem(e.detail.index, e.detail.text);
+        })
+
+        this.footer.addEventListener(FILTER_EVENTS.CLEAR_COMPLETE, this.clearCompleted);
+        this.footer.addEventListener(FILTER_EVENTS.CHANGE_FILTER, (e) => {
+            this.changeFilter(e.detail.filter);
         })
 
 
@@ -83,7 +90,6 @@ export default class App extends HTMLElement{
 
             this.eventHandler();
             
-            this.footer.addEventListener();
             this.syncAttributes();
 
         })
