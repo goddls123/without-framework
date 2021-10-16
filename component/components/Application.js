@@ -47,7 +47,7 @@ export default class App extends HTMLElement{
         this.syncAttributes();
     }
     changeFilter = (filter)=>{
-        this.state.currentFilter = filter;
+        this.state.filter = filter;
         this.syncAttributes();
     }
 

@@ -121,7 +121,6 @@ export default class Footer extends HTMLElement{
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        console.log(name)
         if (name === 'filter'){
             this.updateFilter();
         }

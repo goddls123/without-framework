@@ -162,6 +162,9 @@ export default class List extends HTMLElement{
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+        console.log(this.filter)
+
+        console.log(name)
         this.updateList();
     }
 
