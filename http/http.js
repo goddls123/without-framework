@@ -75,8 +75,8 @@ const put = async (url, body, headers) => {
     return response.data
 }
 
-const deleteRequest =  async (url, body, headers) => {
-    const response = await request({url, headers, method ='DELETE', body})
+const deleteRequest =  async (url, headers) => {
+    const response = await request({url, headers, method ='DELETE'})
     return response.data
 }
 
