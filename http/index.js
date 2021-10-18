@@ -46,7 +46,7 @@ document
     .querySelector("button[data-list]")
     .addEventListener("click", onListClick);
 document
-    .querySelector("button[sdata-add]")
+    .querySelector("button[data-add]")
     .addEventListener("click", onAddClick);
 document
     .querySelector("button[data-delete]")
