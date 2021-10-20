@@ -14,7 +14,7 @@ const parseResponse = async (response) => {
 
 // 실헹
 
-const request = (param) => {
+const request = async (param) => {
     const { headers = {}, body, method = "GET", url } = param;
     const config = {
         method,
